@@ -1,14 +1,16 @@
 import axios from "axios";
 import { SERVER_URL } from "../env";
+import { getToken } from "../utils";
 
-export const createTodo = async (data) => {
+export const updateTodo = async (id, data) => {
   var config = {
-    method: "post",
-    url: `${SERVER_URL}/addTodo`,
+    method: "put",
+    url: `${SERVER_URL}/updateTodo/${id}`,
     headers: {
       "content-type": "application/json",
       "access-control-allow-credentials": true,
-      "access-control-allow-origin":"*"
+      "access-control-allow-origin": "*",
+      Authorization: `Bearer ${getToken()}`,
     },
     data: JSON.stringify(data),
   };

@@ -1,9 +1,9 @@
 import { Box, Grid, Link, Paper, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { createTodo } from "../services/createTodo";
-import { deleteTodo } from "../services/deleteTodo";
-import { getTodos } from "../services/getTodos";
-import { updateTodo } from "../services/updateTodo";
+import { createTodo } from "../apiservices/createTodo";
+import { deleteTodo } from "../apiservices/deleteTodo";
+import { getTodos } from "../apiservices/getTodos";
+import { updateTodo } from "../apiservices/updateTodo";
 import { Task } from "./Task";
 import logo from "../imgs/group.svg";
 
@@ -22,11 +22,15 @@ const Todo = () => {
 
   const onKeyCodeChange = (e) => {
     if (e.keyCode == 13) {
-      createTodo({ task: e.target.value, isCompleted: false }).catch((error) =>
+      createTodo({ task: e.target.value, isCompleted: false })
+      .then(resp=> {
+        setReload(!reload)
+        e.target.value = "";
+    })
+      .catch((error) =>
         console.error("error when creating new todo " + error)
       );
-      setReload(!reload);
-      e.target.value = "";
+      
     }
   };
   const removeTask = (taskId) => {
